@@ -3,39 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CameraPlayer : MonoBehaviour
 {
-    public float Zpos;
-    public float Xpos;
-    public float MouseX_pres;
-    public float MouseX_pres_1;
-    public float MouseX_past;
-    public float MouseX_Direction;
-    public float MouseY_pres;
-    public float MouseY_pres_1;
-    public float MouseY_past;
-    public float MouseY_Direction;
 
+    public float MouseX_Dir;
+    public float MouseY_Dir;
     public float cross_x;
     public float cross_z;
-
     public float y_angle;
     public float sin;
     public float cos;
-
-
     public float x;
     public float z;
-
-    public float height;
-
     public Terrain map;
-
-
-
+    public float height;
     // Use this for initialization
     void Start()
     {
-        MouseX_past = Input.mousePosition.x;
-        MouseY_past = Input.mousePosition.y;
+      
     }
 
     // Update is called once per frame
@@ -64,7 +47,7 @@ public class CameraPlayer : MonoBehaviour
 
 
 
-    */
+         */
         float deltaZ = 0;
         float deltaX = 0;
 
@@ -89,47 +72,16 @@ public class CameraPlayer : MonoBehaviour
             }
         }
 
-        MouseX_pres_1 = Input.GetAxis("Mouse X");
-        MouseY_pres_1 = Input.GetAxis("Mouse Y");
-        MouseX_pres = Input.mousePosition.x;
-        MouseY_pres = Input.mousePosition.y;
-        MouseX_Direction = MouseX_past - MouseX_pres;
-        MouseY_Direction = MouseX_past - MouseY_pres;
-        MouseX_past = MouseX_pres;
-        MouseY_past = MouseY_pres;
-        Zpos = Zpos + deltaZ;
-        Xpos = Xpos + deltaX;
-
-        x = transform.position.x;
-        z = transform.position.z;
-
-        //  height = map.terrainData.GetHeight(transform.position.x, transform.position.z);
-
-        //    height = map.terrainData.GetHeight((int)transform.position.x, (int)transform.position.z);
-        //y_angle = transform.eulerAngles.y;
-        // y_angle = Mathf.Deg2Rad*90;
-        sin = Mathf.Sin(y_angle);
-        cos = Mathf.Cos(y_angle);
+        MouseX_Dir = Input.GetAxis("Mouse X");
+        MouseY_Dir = Input.GetAxis("Mouse Y");
+  
 
         cross_x = (Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.y) * deltaZ) + transform.position.x;
         cross_z = (Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.y) * deltaZ) + transform.position.z;
-
-
-
         Vector3 movement = new Vector3(cross_x, transform.position.y, cross_z);
         // Vector3 movement = new Vector3(cross_x, map.terrainData.GetHeight((int)transform.position.x, (int)transform.position.z) + 2.0F, cross_z);
-        //  Vector3 movement = new Vector3(Xpos, transform.position.y, Zpos);
         transform.position = movement;
+        transform.eulerAngles = new Vector3((transform.eulerAngles.x - MouseY_Dir), (transform.eulerAngles.y + MouseX_Dir), 0);
 
-        //   transform.eulerAngles = new Vector3((transform.eulerAngles.x + MouseX_pres_1), (transform.eulerAngles.y +MouseY_pres_1), 0);
-        transform.eulerAngles = new Vector3((transform.eulerAngles.x - MouseY_pres_1), (transform.eulerAngles.y + MouseX_pres_1), 0);
-        //   transform.eulerAngles= new Vector3(-(MouseY_pres/10.0f), (MouseX_pres/ 10.0f), 0);
-
-        // Print the rotation around the global X Axis
-        // print(transform.eulerAngles.x);
-        // Print the rotation around the global Y Axis
-        //  print(transform.eulerAngles.y);
-        // Print the rotation around the global Z Axis
-        //  print(transform.eulerAngles.z);
     }
 }
